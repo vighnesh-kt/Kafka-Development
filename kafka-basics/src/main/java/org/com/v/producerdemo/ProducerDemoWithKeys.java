@@ -41,33 +41,32 @@ public class ProducerDemoWithKeys {
         //producing multiple data
 
 
-        for (int i=1;i<=5;i++){
+        for(int j=1;j<=5;j++) {
+            for (int i = 1; i <= 5; i++) {
 
-            String topic="Hello Java";
-            String key="id_"+i;
-            ProducerRecord<String,String> producerRecord= new ProducerRecord<>("demo_java","hello world"+i);
+                String topic = "Hello Java";
+                String key = "id_" + i;
+                ProducerRecord<String, String> producerRecord = new ProducerRecord<>("demo_java", key,"hello world" + i);
 
-            //send data
+                //send data
 
 //        producer.send(producerRecord);
-            producer.send(producerRecord, new Callback() {
-                @Override
-                public void onCompletion(RecordMetadata metadata, Exception exception) {
-                    // 5. This is called when the broker responds
-                    if (exception == null) {
-                        // ✅ Success: print metadata
-                        System.out.println("Message sent successfully!");
-                        System.out.println("Topic: " + metadata.topic());
-                        System.out.println("Partition: " + metadata.partition());
-                        System.out.println("Offset: " + metadata.offset());
-                        System.out.println("Timestamp: " + metadata.timestamp());
-                    } else {
-                        // ❌ Failure: print exception
-                        exception.printStackTrace();
+                producer.send(producerRecord, new Callback() {
+                    @Override
+                    public void onCompletion(RecordMetadata metadata, Exception exception) {
+                        // 5. This is called when the broker responds
+                        if (exception == null) {
+                            // ✅ Success: print metadata
+                            System.out.println("Message sent successfully!");
+                            System.out.println("Key " + key + " Partition " + metadata.partition());
+                        } else {
+                            // ❌ Failure: print exception
+                            exception.printStackTrace();
+                        }
                     }
-                }
-            });
+                });
 
+            }
         }
 
 
